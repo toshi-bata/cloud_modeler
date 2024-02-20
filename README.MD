@@ -1,5 +1,5 @@
 # Cloud modeler demo
-Cloud modeler demo is able to create a 3D model from scratch using Parasolid which is running in a server side. It is also can an import 3D CAD data using Exchange which is also runnning in a server side. 
+Cloud modeler demo is able to create a 3D model from scratch using Parasolid which is running in a server side. It is also can import 3D CAD data using Exchange which is also runnning in a server side. 
 
 ## Dependencies
 ### SDKs in use (version)
@@ -13,15 +13,15 @@ Cloud modeler demo is able to create a 3D model from scratch using Parasolid whi
 
 ## Setup
 ### Demo folders
-&emsp;+ cloud_modeler
-&emsp;&emsp;+ PsServer
-&emsp;&emsp;+ cloud_modeler.html
-&emsp;&emsp;+ Release
-&emsp;&emsp;&emsp;+ scheme (Parasolid scheme folder)
-&emsp;&emsp;&emsp;+ PsServer.exe
-&emsp;&emsp;&emsp;+ Parasolid dll files
-&emsp;&emsp;&emsp;+ Exchange dll files
-&emsp;&emsp;+ src (copy src folder from <Communicator SDK>\web_viewer)
+&emsp;+ cloud_modeler<br>
+&emsp;&emsp;+ PsServer<br>
+&emsp;&emsp;+ cloud_modeler.html<br>
+&emsp;&emsp;+ Release<br>
+&emsp;&emsp;&emsp;+ scheme (Parasolid scheme folder)<br>
+&emsp;&emsp;&emsp;+ PsServer.exe<br>
+&emsp;&emsp;&emsp;+ Parasolid dll files<br>
+&emsp;&emsp;&emsp;+ Exchange dll files<br>
+&emsp;&emsp;+ src (copy src folder from <Communicator SDK>\web_viewer)<br>
 
 ### Environment valiables
 Register the following enviroment valiables<br>
