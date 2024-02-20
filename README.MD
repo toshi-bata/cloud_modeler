@@ -1,5 +1,7 @@
 # Cloud modeler demo
-Cloud modeler demo is able to create a 3D model from scratch using Parasolid which is running in a server side. It is also can import 3D CAD data using Exchange which is also runnning in a server side. 
+Cloud modeler demo is able to create a 3D model from scratch using Parasolid which is running in a server side. It is also can import 3D CAD data using Exchange which is also runnning in a server side. <br>
+This demo is introduced in our Innovation Lab<br>
+https://labs.techsoft3d.com/project/cloud-modeler
 
 ## Dependencies
 ### SDKs in use (version)
