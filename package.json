@@ -1,0 +1,13 @@
+{
+  "name": "http-server",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./HttpServer.js"
+  },
+
+  "dependencies": {
+    "connect":              "",
+    "serve-static":         ""
+  }
+}

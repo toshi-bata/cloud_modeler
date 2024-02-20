@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        
+        <title>Cloud Modeler</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+        <script type="text/javascript" src="../src/js/jquery-3.5.1.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+        <script type="text/javascript" src="../src/js/hoops_web_viewer.js"></script>
+        <script type="text/javascript" src="../src/js/web_viewer_ui.js"></script>
+        <script type="text/javascript" src="js/create_viewer.js"></script>
+        <script type="text/javascript" src="js/general_func.js"></script>
+        <script type="text/javascript" src="js/common_utilities.js"></script>
+        <script type="text/javascript" src="js/handle_operator_operator.js"></script>
+        <script type="text/javascript" src="js/main.js"></script>
+        <script type="text/javascript" src="js/operators.js"></script>
+        <script type="text/javascript" src="js/ServerCaller.js"></script>
+        <script type="text/javascript" src="js/section_func.js"></script>
+        <script type="text/javascript" src="js/markups.js"></script>
+        <script type="text/javascript" src="js/bodyMeshCreator.js"></script>
+
+        <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+        <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="../src/css/Toolbar.css" type="text/css">
+
+        <!-- jsTree -->
+        <script type="text/javascript" src="js/jstree_func.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
+
+        <script type="text/javascript">
+            function browserLanguage() {
+                try {
+                    return (navigator.browserLanguage || navigator.language || navigator.userLanguage).substr(0,2)
+                }
+                    catch(e) {
+                    return undefined;
+                }
+            }
+            
+            var cloudModeler;
+            window.onload = function () {
+                cloudModeler = new Main();
+
+                let port = getURLArgument("port");
+                if (port == undefined)
+                    port = "8888";
+
+                const viewerMode = getURLArgument("viewer");
+                let modelName = getURLArgument("instance");
+                if (modelName == undefined)
+                    modelName = "_empty";
+                const reverseProxy = getURLArgument("proxy");
+                
+                cloudModeler.start(port, viewerMode, modelName, reverseProxy, false);
+            };
+        </script>
+    </head>
+    <body>
+        <div id="content">
+            <div id="container"></div>
+        </div>
+
+        <div id="modelTree" class="CAD_contents">
+            <div id="tree"></div>
+        </div>
+
+        <div class="toolbarGr CAD_contents">
+            <input title="New" class="toolbarBtn normalBtn simpleCmd" data-command="New" type="image" src="css/images/new.png" />
+            &nbsp;
+            <input title="Create solid" class="toolbarBtn dlgOkCmd" data-command="CreateSolid" data-type="create" type="image" src="css/images/block.png" />
+            &nbsp;
+            <input title="Boolean" class="toolbarBtn dlgOkCmd boolean" data-command="Boolean" data-type="edit" type="image" src="css/images/boolean.png" />
+            <input title="Blend" class="toolbarBtn dlgOkCmd" data-command="Blend" data-type="edit" type="image" src="css/images/blend.png" />
+            <input title="Hollow" class="toolbarBtn dlgOkCmd" data-command="Hollow" data-type="edit" type="image" src="css/images/hollow.png" />
+            <input title="Offset" class="toolbarBtn dlgOkCmd" data-command="Offset" data-type="edit" type="image" src="css/images/offset.png" />
+            <input title="Imprint-Hole" class="toolbarBtn dlgOkCmd" data-command="ImprintRo" data-type="edit" type="image" src="css/images/imprint-ro.png" />
+            <input title="Imprint-Face" class="toolbarBtn dlgOkCmd" data-command="ImprintFace" data-type="edit" type="image" src="css/images/imprint-face.png" />
+            <input title="Transform" class="toolbarBtn toggleBtn simpleCmd" data-command="Transform" data-type="edit" type="image" src="css/images/transform.png" />
+            <input title="Copy Face" class="toolbarBtn dlgOkCmd" data-command="CopyFace" data-type="create" type="image" src="css/images/copy_face.png" />
+            <input title="Delete Face" class="toolbarBtn dlgOkCmd" data-command="DeleteFace" data-type="edit" type="image" src="css/images/deleteFace.png" />
+            <input title="Delete Body" class="toolbarBtn entityOneClickCmd" data-command="DeleteBody" data-on=false type="image" src="css/images/delete.png" />
+            &nbsp;
+            <input title="Undo" class="toolbarBtn normalBtn simpleCmd" data-command="Undo" type="image" src="css/images/undo.png" />
+            <input title="Redo" class="toolbarBtn normalBtn simpleCmd" data-command="Redo" type="image" src="css/images/redo.png" />
+            &nbsp;
+            <!-- <input title="Orthographic" class="toolbarBtn normalBtn simpleCmd" data-command="SwitchProjection" type="image" src="css/images/orthographic.png" /> -->
+            <input title="Section" class="toolbarBtn toggleBtn simpleCmd" data-command="SectionCAD" data-on=false data-type="edit" type="image" src="css/images/section.png" />
+            <input title="FR-Holes" class="toolbarBtn dlgOkCmd" data-command="FR_Holes" data-type="inquiry" type="image" src="css/images/FR.png" />
+            <input title="FR-Concaves" class="toolbarBtn dlgOkCmd" data-command="FR_Concaves" data-type="inquiry" type="image" src="css/images/concave.png" />
+            <input title="Check Collision" class="toolbarBtn toggleBtn simpleCmd" data-command="CheckCollision" data-type="inquiry" data-on=false type="image" src="css/images/collision.png" />
+            <input title="Compute Silhouette" class="toolbarBtn toggleBtn simpleCmd" data-command="Silhouette" data-type="inquiry" data-on=false type="image" src="css/images/silhouette.png" />
+            <input title="Mass Properties" class="toolbarBtn entityOneClickCmd" data-command="MassProps" data-on=false type="image" src="css/images/info.png" />
+            <input title="Download" class="toolbarBtn simpleCmd" data-command="DownloadCAD" data-type="inquiry" type="image" src="css/images/download.png" />
+        </div>
+
+        <div id="info1" style="display: none;"></div>
+        
+        <div id="okCancel" class="cmdDlg" style="display: none;">
+            <input id="OkBtn" class="button" type="button" value="OK">
+            <input id="CancelBtn" class="button cancelBtn" type="button" value="Cancel">
+        </div>
+
+        <div id="CreateSolidDlg" class="cmdDlg" style="display: none;">
+            <p><b>Solid shape:</b><br>
+                <label><input type="radio" name="solidType" value="B" checked> Block</label>&nbsp;
+                <label><input type="radio" name="solidType" value="Y"> Cylinder</label>&nbsp;
+                <label><input type="radio" name="solidType" value="P"> Prism</label>&nbsp;
+                <label><input type="radio" name="solidType" value="C"> Cone</label>&nbsp;
+                <label><input type="radio" name="solidType" value="T"> Torus</label>
+                <label><input type="radio" name="solidType" value="S"> Sphere</label>
+            </p>
+        </div>
+
+        <div id="blockSize" class="sizeInput inpuSet" style="display: none;">
+            <label for="SX">Size X:&nbsp;</label><input id="SX" class="input" type="number" value="100"><br>
+            <label for="SY">Size Y:&nbsp;</label><input id="SY" class="input" type="number" value="100"><br>
+            <label for="SZ">Size Z:&nbsp;</label><input id="SZ" class="input" type="number" value="100"><br>
+        </div>
+
+        <div id="cylinderSize" class="sizeInput inpuSet" style="display: none;">
+            <label for="CylR">Radius:&nbsp;</label><input id="CylR" class="input" type="number" value="50"><br>
+            <label for="CylH">Height:&nbsp;</label><input id="CylH" class="input" type="number" value="100"><br>
+        </div>
+        
+        <div id="prismSize" class="sizeInput inpuSet" style="display: none;">
+            <label for="PrismR">Radius:&nbsp;</label><input id="PrismR" class="input" type="number" value="50"><br>
+            <label for="PrismH">Height:&nbsp;</label><input id="PrismH" class="input" type="number" value="100"><br>
+            <label for="PrismN">Number:&nbsp;</label><input id="PrismN" class="input" type="number" value="6"><br>
+        </div>
+
+        <div id="coneSize" class="sizeInput inpuSet" style="display: none;">
+            <label for="ConeTR">Top R:&nbsp;</label><input id="ConeTR" class="input" type="number" value="0"><br>
+            <label for="ConeBR">Bottom R:&nbsp;</label><input id="ConeBR" class="input" type="number" value="50"><br>
+            <label for="ConeH">Height:&nbsp;</label><input id="ConeH" class="input" type="number" value="100">
+        </div>
+
+        <div id="torusSize" class="sizeInput inpuSet" style="display: none;">
+            <label for="MajorR">Major R:&nbsp;</label><input id="MajorR" class="input" type="number" value="50"><br>
+            <label for="MinerR">Minor R:&nbsp;</label><input id="MinerR" class="input" type="number" value="20">
+        </div>
+
+        <div id="sphereSize" class="sizeInput inpuSet" style="display: none;">
+            <label for="SphereR">Radius:&nbsp;</label><input id="SphereR" class="input" type="number" value="50"><br>
+        </div>
+
+        <div id="offsetInput" class="inpuSet" style="display: none;">
+            <label for="OX" id="lblOX">Offset X:&nbsp;</label><input id="OX" class="input" type="number" value="0"><br>
+            <label for="OY" id="lblOY">Offset Y:&nbsp;</label><input id="OY" class="input" type="number" value="0"><br>
+            <label for="OZ" id="lblOZ">Offset Z:&nbsp;</label><input id="OZ" class="input" type="number" value="0">
+        </div>
+
+        <div id="dirInput" class="inpuSet" style="display: none;">
+            <label for="DX" id="lblDX">Dir X:&nbsp;</label><input id="DX" class="input" type="number" value="0"><br>
+            <label for="DY" id="lblDY">Dir Y:&nbsp;</label><input id="DY" class="input" type="number" value="0"><br>
+            <label for="DZ" id="lblDZ">Dir Z:&nbsp;</label><input id="DZ" class="input" type="number" value="1">
+        </div>
+
+        <div id="BooleanDlg" class="cmdDlg" style="display: none;">
+            <p><b>Boolean type:</b><br>
+                <label><input type="radio" name="boolType" value="U" checked>Unite</label>&nbsp;
+                <label><input type="radio" name="boolType" value="S">Subtract</label>&nbsp;
+                <label><input type="radio" name="boolType" value="I">Intersect</label>
+            </p>
+            <label for="targetBody" style="vertical-align:top">Target body:</label><br>
+            <select class="selList" id="targetBody" data-unfocus="true" data-listid="0" size="2"></select><p></p>
+            <label for="toolBody" style="vertical-align:top">Tool body:</label><br>
+            <select class="selList" id="toolBody" data-unfocus="true" data-listid="1" size="4"></select><br>
+        </div>
+        
+        <div id="BlendDlg" class="cmdDlg" style="display: none;">
+            <p><b>Blend type:</b><br>
+                <label><input type="radio" name="blendType" value="R" checked>R</label>&nbsp;
+                <label><input type="radio" name="blendType" value="C">C</label>
+            </p>
+            <label for="targetEdgesBlend" style="vertical-align:top">Edges:</label>
+            <select class="selList" id="targetEdgesBlend" size="4"></select><br>
+            <label for="blendSize">Size:</label>
+            <input id="blendSize" class="input" type="number" value="10">
+        </div>
+
+        <div id="HollowDlg" class="cmdDlg" style="display: none;">
+            <div id="selListHollow">
+                <label for="pierceFacesHollow" style="vertical-align:top">Pierce Face(s):</label>
+                <select class="selList" id="pierceFacesHollow" size="4"></select><br>
+            </div>
+            <div>
+                <input type="checkbox" id="noPierceFace">
+                <label for="noPierceFace">Hollow without pierce face</label>
+            </div>
+            <div>
+                <label for="hollowThickness">Thickness:</label>
+                <input id="hollowThickness" class="input" type="number" value="1.0">
+            </div>
+            <div>
+                <input type="checkbox" id="hollowOutside">
+                <label for="hollowOutside">Hollow Outside</label>
+            </div>
+        </div>
+
+        <div id="OffsetDlg" class="cmdDlg" style="display: none;">
+            <div id="selListOffset">
+                <label for="offsetFaces" style="vertical-align:top">Offset Face(s):</label>
+                <select class="selList" id="offsetFaces" size="4"></select><br>
+            </div>
+            <div>
+                <input type="checkbox" id="wholeOffset">
+                <label for="wholeOffset">Offset whole body</label>
+            </div>
+            <div>
+                <label for="offsetValue">Offset Value:</label>
+                <input id="offsetValue" class="input" type="number" value="1.0">
+            </div>
+            <div>
+                <input type="checkbox" id="offsetInside">
+                <label for="offsetInside">Offset Inside</label>
+            </div>
+        </div>
+
+        <div id="ImprintRoDlg" class="cmdDlg" style="display: none;">
+            <label for="targetEdgesImpRo" style="vertical-align:top">Edges:</label>
+            <select class="selList" id="targetEdgesImpRo" size="4"></select><br>
+            <label for="offsetImp">Offset:</label>
+            <input id="offsetImp" class="input" type="number" value="5">
+        </div>
+
+        <div id="ImprintFaceDlg" class="cmdDlg" style="display: none;">
+            <label for="toolFacesImpFace" style="vertical-align:top">Tool faces:</label>
+            <select class="selList" id="toolFacesImpFace" data-unfocus="true" data-listid="0" size="4"></select><br>
+            <label for="targetBodyImpFace" style="vertical-align:top">Target face:</label>
+            <select class="selList" id="targetBodyImpFace" data-unfocus="true" data-listid="1" size="2"></select><br>
+        </div>
+
+        <div id="CopyFaceDlg" class="cmdDlg" style="display: none;">
+            <label for="targetFacesCopy" style="vertical-align:top">Target face(s):</label><br>
+            <select class="selList" id="targetFacesCopy" data-unfocus="true" data-listid="0" size="4"></select><p></p>
+        </div>
+
+        <div id="DeleteFaceDlg" class="cmdDlg" style="display: none;">
+            <label for="targetFacesDel" style="vertical-align:top">Target face(s):</label><br>
+            <select class="selList" id="targetFacesDel" data-unfocus="true" data-listid="0" size="4"></select><p></p>
+        </div>
+        
+        <div id="FR_HolesDlg" class="cmdDlg" style="display: none;">
+            <label for="maxDiameter">Max Diameter:</label>
+            <input class="input" id="maxDiameter" type="number" value="10" /><p></p>
+            <label for="smallHoles" style="vertical-align:top">Faces:</label>
+            <select class="selList" id="smallHoles" size="4"></select><br>
+        </div>
+
+        <div id="FR_ConcavesDlg" class="cmdDlg" style="display: none;">
+            <label for="concaveAngleMin">Angle Min:</label>
+            <input class="input" id="concaveAngleMin" type="number" value="70" />
+            <label for="concaveAngleMax"> Max:</label>
+            <input class="input" id="concaveAngleMax" type="number" value="120" /><p></p>
+            <label for="concaves" style="vertical-align:top">Cocave edges:</label>
+            <select class="selList" id="concaves" size="4"></select><p></p>
+            <label for="concaveChamfSize">Chamfer size:</label>
+            <input class="input" id="concaveChamfSize" type="number" value="4.5" />
+        </div>
+
+        <div id="timeoutWarnDlg" style="display:none;">
+            <p>Your server side process will time out <br>
+                after 5 minutes.<br>
+                Would you like to continue using it?</p>
+        </div>
+        
+        <div id="DownloadDlg" style="display:none;">
+            <p><b>File format:</b><br>
+                <label><input type="radio" name="fileFormat" value="S"> STEP (*.stp)</label><br>
+                <label><input type="radio" name="fileFormat" value="X" checked> Parasolid (*.x_t)</label><br>
+                <label><input type="radio" name="fileFormat" value="P"> PRC (*.prc)</label>
+            </p>
+        </div>
+
+        <img id="loadingImage" style="display: none;" src="css/images/spinner.gif" class="centerBlock" />
+        
+        <div id="dataInfo"></div>
+
+        <img class="logo CAD_contents" src="css/images/HC.png">
+
+        <div id="footer">© Tech Soft 3D All Rights Reserved</div>
+    </body>
+</html>
