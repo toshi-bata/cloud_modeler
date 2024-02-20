@@ -47,9 +47,9 @@ If you want to rebuild PsServer application
         
 ## Start cloud_modeler for debug (without using ProcessServer)
 1. Launch HTTP server using a command prompt<br>
-    > cd …/cloud_modeler
-    > npm install
-    > npm start
+    `cd …/cloud_modeler`
+    `npm install`
+    `npm start`
 2. Start PsServer.exe 8889 (giving a port number in command line argument)
 3. Open (using Chrome)<br>
     http://localhost:8000/cloud_modeler.html?viewer=scs&instance=_empty.scs&port=8889
