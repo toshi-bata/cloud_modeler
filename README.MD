@@ -20,7 +20,7 @@ https://labs.techsoft3d.com/project/cloud-modeler
 &emsp;&emsp;+ js<br>
 &emsp;&emsp;+ PsServer<br>
 &emsp;&emsp;+ Release<br>
-&emsp;&emsp;&emsp;+ scheme (Locate schema folder from <Parasolid SDK>\base)<br>
+&emsp;&emsp;&emsp;+ scheme (Locate schema folder from 'Parasolid SDK\base')<br>
 &emsp;&emsp;&emsp;+ PsServer.exe<br>
 &emsp;&emsp;&emsp;+ Parasolid dll files (locate all files in `Parasolid SDK\base\bin`)<br>
 &emsp;&emsp;&emsp;+ Exchange dll files (locate all files in `Exchange SDK\bin\win64_v142`)<br>
