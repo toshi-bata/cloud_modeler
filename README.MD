@@ -31,7 +31,7 @@ https://labs.techsoft3d.com/project/cloud-modeler
 
 ### Environment valiables
 Register the following enviroment valiables<br>
-    Name: PS_SERVER_WORKING_DIR   Value: C:\temp\PsServer\ (Create the folder if it doen't exist)
+    Name: `PS_SERVER_WORKING_DIR`   Value: C:\temp\PsServer\ (Create the folder if it doen't exist)
 
 ### PsServer
 PsServer is a server side console application which is using HOOPS Exchange, Parasolid. 
