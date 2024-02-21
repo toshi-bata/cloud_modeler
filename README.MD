@@ -36,8 +36,8 @@ Register the following enviroment valiables<br>
 ### PsServer
 PsServer is a server side console application which is using HOOPS Exchange, Parasolid. <br>
 \* As of now, it will works on Windows only<br>
-1. Edit cloud_modeler\PsServer\HC_VS2019.bat according to your environment
-2. Launch the solution with VS2019 using the above bat file
+1. Edit `cloud_modeler\PsServer\HC_VS2019.bat` according to your environment
+2. Launch the `PsServer.sln` solution with VS2019 using the above bat file
 3. Build the console application project
 
 ## Start cloud_modeler
