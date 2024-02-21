@@ -1,11 +1,3 @@
-//##################################################################################################
-//
-//  CEETRON Envision for Web
-//
-//  --------------------------------------------------------------------------------------------
-//  Copyright (C) 2016, Ceetron AS
-//##################################################################################################
-
 var PORT = process.env.PORT || 8000;
 const USE_HTTPS = process.env.CEW_USE_HTTPS || false;
 
@@ -29,7 +21,7 @@ function setHeaders(res, path) {
 
 var connectApp = connect(); 
 
-console.log("CEETRON Envision for Web Examples HttpServer serving files from:");
+console.log("HttpServer serving files from:");
 for (var i = 0; i < dirsToServe.length; i++) {
     console.log("  " + dirsToServe[i]);
     connectApp.use(serveStatic(dirsToServe[i], {"setHeaders": setHeaders}));

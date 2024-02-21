@@ -1373,6 +1373,7 @@ std::vector<float> CPsProcess::Boolean(const char cType, const PK_ENTITY_t targe
 	} break;
 	default: break;
 	}
+	options.merge_imprinted = PK_LOGICAL_true;
 
 	PK_CLASS_t ent_class;
 	
