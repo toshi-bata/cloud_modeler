@@ -1,5 +1,5 @@
 # Cloud modeler demo
-Cloud modeler demo is able to create a 3D model from scratch using Parasolid which is running in the server side. It is also can import 3D CAD data using Exchange which is also runnning in the server side. <br>
+Cloud modeler demo is able to create 3D models from scratch using Parasolid which is running in the server side. It is also can import 3D CAD data using Exchange which is also runnning in the server side. <br>
 This demo is introduced in our Innovation Lab<br>
 https://labs.techsoft3d.com/project/cloud-modeler
 
@@ -36,6 +36,7 @@ Register the following enviroment valiables<br>
 ### PsServer
 PsServer is a server side console application which is using HOOPS Exchange, Parasolid. <br>
 \* As of now, it will works on Windows only<br>
+If you want to build PsServer, <br>
 1. Edit `cloud_modeler\PsServer\HC_VS2019.bat` according to your environment
 2. Launch the `PsServer.sln` solution with VS2019 using the above bat file
 3. Build the console application project
