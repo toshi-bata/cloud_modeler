@@ -4,7 +4,7 @@ var ClipFunc = function(viewer) {
     this._box;
 
     var _this = this;
-    _this._viewer.getModel().getModelBounding(true, false).then(function(box) {
+    _this._viewer.model.getModelBounding(true, false).then(function(box) {
         _this._box = box;
     });
 };
@@ -14,7 +14,7 @@ ClipFunc.prototype = {
         var _this = this;
         return new Promise(function (resolve, reject) {
             if (0 == _this._cuttingSections.length) {
-                _this._viewer.getModel().getModelBounding(true, false).then(function(box) {
+                _this._viewer.model.getModelBounding(true, false).then(function(box) {
                     _this._box = box;
                     var CM = _this._viewer.cuttingManager;
                     CM.setCappingFaceColor(new Communicator.Color(0, 255, 255));

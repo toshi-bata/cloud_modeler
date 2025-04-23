@@ -1,6 +1,7 @@
 /// <reference path="../../typescript/hoops_web_viewer.d.ts" />
+/// import * as Communicator from "../hoops-web-viewer.mjs";
 
-class BodyMeshCreator {
+export class BodyMeshCreator {
     private _viewer: Communicator.WebViewer;
 
     constructor(viewer: Communicator.WebViewer) {

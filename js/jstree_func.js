@@ -1,4 +1,5 @@
-class ModelTree {
+import * as Communicator from "../hoops-web-viewer.mjs";
+export class ModelTree {
     constructor(viewer, treeDiv) {
         this._viewer = viewer;
         this._treeDiv = treeDiv;
@@ -36,7 +37,7 @@ class ModelTree {
                 // this.$refs.tree1.updateCheck(String(nodeId), checked);
             },
             "loaded.jstree": () => {
-                cloudModeler.layoutTree();
+                Window.cloudModeler.layoutTree();
             }
         });
     }

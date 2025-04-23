@@ -1,4 +1,6 @@
-class NodeSelectOperator {
+import * as Communicator from "../hoops-web-viewer.mjs";
+import { ArrowMarkup } from "./common_utilities.js";
+export class NodeSelectOperator {
     constructor(viewer) {
         this._viewer = viewer;
         this._ptFirst;
@@ -111,9 +113,9 @@ class NodeSelectOperator {
                                     enPnt = enPnt.add(stPnt);
 
                                     let markupItem = new ArrowMarkup(this._viewer, new Communicator.Color(255, 255, 0));
-                                    markupItem.setStartEndCap(Communicator.Markup.Shape.EndcapType.Arrowhead, Communicator.Markup.Shape.EndcapType.None);
+                                    markupItem.setStartEndCap(Communicator.Markup.Shapes.EndcapType.Arrowhead, Communicator.Markup.Shapes.EndcapType.None);
                                     markupItem.setPosiiton(stPnt, enPnt);
-                                    this._markupHandle.push(this._viewer.markupManager.registerMarkup(markupItem));
+                                    this._markupHandle.push(this._viewer.markupManager.registerMarkup(markupItem, this._viewer.view));
 
                                     if (!flg) {
                                         normal.scale(-1);
@@ -158,7 +160,7 @@ class NodeSelectOperator {
         this._viewer.model.setNodesHighlighted([this._viewer.model.getAbsoluteRootNode()], false);
 
         for (let handle of this._markupHandle) {
-            this._viewer.markupManager.unregisterMarkup(handle);
+            this._viewer.markupManager.unregisterMarkup(handle, this._viewer.view);
         }
         this._markupHandle.length = 0;
 
@@ -184,7 +186,7 @@ class NodeSelectOperator {
         const pointDistance = Communicator.Point2.subtract(this._ptFirst, ptCurrent).length();
         
         if (5 > pointDistance && event.getButton() == Communicator.Button.Left) {
-            this._viewer.getView().pickFromPoint(ptCurrent, this._pickConfig).then((selectionItem) => {
+            this._viewer.view.pickFromPoint(ptCurrent, this._pickConfig).then((selectionItem) => {
                 const nodeId = selectionItem.getNodeId();
                 if (null != nodeId) {
                     this.selected(selectionItem);
@@ -214,13 +216,13 @@ class NodeSelectOperator {
             if (Communicator.SelectionMask.Line == this._pickConfig.selectionMask) {
                 const lineEntity = selectionItem.getLineEntity();
                 entityId = lineEntity.getLineId();
-                const edgeInfo = cloudModeler.getEdgeInfo(nodeId, entityId);
+                const edgeInfo = Window.cloudModeler.getEdgeInfo(nodeId, entityId);
                 entityTag = edgeInfo.edgeTag;
             }
             else {
                 const faceEntity = selectionItem.getFaceEntity();
                 entityId = faceEntity.getCadFaceIndex();
-                const faceInfo = cloudModeler.getFaceInfo(nodeId, entityId);
+                const faceInfo = Window.cloudModeler.getFaceInfo(nodeId, entityId);
                 entityTag = faceInfo.faceTag;
 
                 if (this._isTargetBody) {
@@ -244,7 +246,7 @@ class NodeSelectOperator {
             
             
             for (let handle of this._markupHandle) {
-                this._viewer.markupManager.unregisterMarkup(handle);
+                this._viewer.markupManager.unregisterMarkup(handle, this._viewer.view);
             }
             this._markupHandle.length = 0;
 
@@ -257,7 +259,7 @@ class NodeSelectOperator {
     }
 }
 
-class entityOneClickOperator {
+export class entityOneClickOperator {
     constructor(viewer) {
         this._viewer = viewer;
         this._ptFirst;
@@ -292,7 +294,7 @@ class entityOneClickOperator {
         this._viewer.view.pickFromPoint(event.getPosition(), this._pickConfig).then((selectionItem) => {
             const nodeId = selectionItem.getNodeId();
             if (nodeId) {
-                const body = cloudModeler.getBodyId(nodeId);
+                const body = Window.cloudModeler.getBodyId(nodeId);
                 if (null == body) return;
 
                 const psBodyId = body.bodyTag;
@@ -308,54 +310,54 @@ class entityOneClickOperator {
 
                     switch (this._command) {
                         case "Hollow": {
-                            cloudModeler.invokeHollow(entityTag);
+                            Window.cloudModeler.invokeHollow(entityTag);
                         } break;
                         case "Offset": {
-                            cloudModeler.invokeOffset(entityTag);
+                            Window.cloudModeler.invokeOffset(entityTag);
                         } break;
                         case "DeleteBody": {
                             const params = { body: entityTag };
 
-                            cloudModeler.invokeModelerDeleteBody(this._command, "delete", entityTag, params);
+                            Window.cloudModeler.invokeModelerDeleteBody(this._command, "delete", entityTag, params);
 
                             $("#info1").html("");
                             $("#" + this._command + "Dlg").hide();
         
-                            cloudModeler.resetCommand();
-                            cloudModeler.resetOperator();
+                            Window.cloudModeler.resetCommand();
+                            Window.cloudModeler.resetOperator();
                         } break;
                         case "MassProps": {
                             const params = { body: psBodyId };
-                            cloudModeler.invokeModelerInquiry(this._command, params);
+                            Window.cloudModeler.invokeModelerInquiry(this._command, params);
 
                             $("#info1").html("");
                             $("#" + this._command + "Dlg").hide();
         
-                            cloudModeler.resetCommand();
-                            cloudModeler.resetOperator();
+                            Window.cloudModeler.resetCommand();
+                            Window.cloudModeler.resetOperator();
                         } break;
                         case "FR_Holes": {
                             const size = $("#maxDiameter").val();
                             const params = { size: size, body: psBodyId };
-                            cloudModeler.invokeModelerInquiry(this._command, params);
+                            Window.cloudModeler.invokeModelerInquiry(this._command, params);
                         } break;
                         case "FR_Concaves": {
                             const min = $("#concaveAngleMin").val();
                             const max = $("#concaveAngleMax").val();
                             const params = { min: min, max: max, body: psBodyId };
-                            cloudModeler.invokeModelerInquiry(this._command, params);
+                            Window.cloudModeler.invokeModelerInquiry(this._command, params);
                         } break;
                         case "VolumeMesh": {
                             const size = $("#meshSize").val();
                             const str = this._command;
                             let params = { body: psBodyId, meshSize: size};
-                            cloudModeler.invokeCAE(str, params);
+                            Window.cloudModeler.invokeCAE(str, params);
 
                             $("#info1").html("");
                             $("#" + this._command + "Dlg").hide();
         
-                            cloudModeler.resetCommand();
-                            cloudModeler.resetOperator();
+                            Window.cloudModeler.resetCommand();
+                            Window.cloudModeler.resetOperator();
                         } break;
                         default: {
                         } break;

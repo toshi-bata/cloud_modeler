@@ -1,6 +1,6 @@
 /// <reference path="../../typescript/hoops_web_viewer.d.ts" />
 
-class ClosestLineMarkup extends Communicator.Markup.MarkupItem {
+export class ClosestLineMarkup extends Communicator.Markup.MarkupItem {
     private _viewer: Communicator.WebViewer;
     private _point1: Communicator.Point3;
     private _point2: Communicator.Point3;

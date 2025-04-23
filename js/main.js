@@ -1,4 +1,11 @@
-class Main {
+import * as Communicator from "../hoops-web-viewer.mjs";
+import { createViewer } from "./create_viewer.js";
+import {NodeSelectOperator, entityOneClickOperator } from "./operators.js";
+import { vectorsAngleDeg } from "./common_utilities.js";
+import { BodyMeshCreator } from "./bodyMeshCreator.js";
+import { ModelTree } from "./jstree_func.js";
+import { HandleOperatorOperator } from "./handle_operator_operator.js";
+export class Main {
     constructor () {
         this._procServerCaller;
         this._psServerPort;

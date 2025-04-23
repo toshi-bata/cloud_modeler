@@ -1,4 +1,5 @@
-function createViewer(viewerMode, modelName, containerId, reverseProxy, modelDirArr) {
+import * as Communicator from "../hoops-web-viewer.mjs";
+export function createViewer(viewerMode, modelName, containerId, reverseProxy, modelDirArr) {
     return new Promise(function (resolve, reject) {
         if (viewerMode == "SCS" || viewerMode == "scs") {
             var scsFileName = modelName;

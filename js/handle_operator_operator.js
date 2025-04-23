@@ -1,4 +1,6 @@
-class HandleOperatorOperator {
+import * as Communicator from "../hoops-web-viewer.mjs";
+import { ArrowMarkup, MarkerMarkup } from "./common_utilities.js";
+export class HandleOperatorOperator {
     constructor(viewer, handleOp, handleOpHandle) {
         this._viewer = viewer;
         this._handleOp = handleOp;
@@ -23,7 +25,7 @@ class HandleOperatorOperator {
 
         // Create marker line for pre-select
         this._preMarkupItem = new ArrowMarkup(this._viewer, new Communicator.Color(255, 0, 0));
-        this._preMarkupItem.setStartEndCap(Communicator.Markup.Shape.EndcapType.None, Communicator.Markup.Shape.EndcapType.None);
+        this._preMarkupItem.setStartEndCap(Communicator.Markup.Shapes.EndcapType.None, Communicator.Markup.Shapes.EndcapType.None);
 
         // Create marker circle for pre-select
         this._preMarkupCircleItem = new MarkerMarkup(this._viewer, new Communicator.Color(255, 0, 0));

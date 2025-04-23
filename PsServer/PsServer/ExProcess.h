@@ -9,7 +9,6 @@ public:
 	~CExProcess();
 
 private:
-	A3DSDKHOOPSExchangeLoader* m_pHoopsExchangeLoader;
 
 public:
 	bool Init();

@@ -1,5 +1,6 @@
+import * as Communicator from "../hoops-web-viewer.mjs";
 // compute angle and rotation axis between two vectors
-function vectorsAngleDeg(point3d1, point3d2) {
+export function vectorsAngleDeg(point3d1, point3d2) {
     if (point3d1.equalsWithTolerance(point3d2, 1.0E-8)) {
         return {
             angleDeg: 0, 
@@ -125,15 +126,15 @@ function DetectPolyArc(vertices) {
     }
 }
 
-class ArrowMarkup extends Communicator.Markup.MarkupItem {
+export class ArrowMarkup extends Communicator.Markup.MarkupItem {
     constructor(viewer, color, constntLength) {
         super();
         this._viewer = viewer;
         this._stPnt = Communicator.Point3.zero();
         this._enPnt = Communicator.Point3.zero();
-        this._line = new Communicator.Markup.Shape.Line();
-        this._line.setStartEndcapType(Communicator.Markup.Shape.EndcapType.Circle);
-        this._line.setEndEndcapType(Communicator.Markup.Shape.EndcapType.Arrowhead);
+        this._line = new Communicator.Markup.Shapes.Line();
+        this._line.setStartEndcapType(Communicator.Markup.Shapes.EndcapType.Circle);
+        this._line.setEndEndcapType(Communicator.Markup.Shapes.EndcapType.Arrowhead);
         this._line.setStrokeWidth(2);
         this._line.setStartEndcapColor(color);
         this._line.setEndEndcapColor(color);
@@ -143,8 +144,8 @@ class ArrowMarkup extends Communicator.Markup.MarkupItem {
     }
 
     draw() {
-        const stPnt = Communicator.Point2.fromPoint3(this._viewer.getView().projectPoint(this._stPnt));
-        let enPnt = Communicator.Point2.fromPoint3(this._viewer.getView().projectPoint(this._enPnt));
+        const stPnt = Communicator.Point2.fromPoint3(this._viewer.view.projectPoint(this._stPnt));
+        let enPnt = Communicator.Point2.fromPoint3(this._viewer.view.projectPoint(this._enPnt));
 
         if (this._constantLength) {
             const p0 = new Communicator.Point2(0, 0);
@@ -156,11 +157,11 @@ class ArrowMarkup extends Communicator.Markup.MarkupItem {
             if (isNaN(diagonalLength) || diagonalLength < 1) diagonalLength = 1;
 
             const endPnt = this._stPnt.copy().add(this._enPnt.copy().scale(diagonalLength));
-            enPnt = Communicator.Point2.fromPoint3(this._viewer.getView().projectPoint(endPnt));
+            enPnt = Communicator.Point2.fromPoint3(this._viewer.view.projectPoint(endPnt));
         }
 
         this._line.set(stPnt, enPnt);
-        this._viewer.getMarkupManager().getRenderer().drawLine(this._line);
+        this._viewer.markupManager.getRenderer().drawLine(this._line);
     }
  
     hit() {
@@ -187,12 +188,12 @@ class ArrowMarkup extends Communicator.Markup.MarkupItem {
 
 }
 
-class MarkerMarkup extends Communicator.Markup.MarkupItem {
+export class MarkerMarkup extends Communicator.Markup.MarkupItem {
     constructor(viewer, color) {
         super();
         this._viewer = viewer;
         this._point = Communicator.Point3.zero();
-        this._circle = new Communicator.Markup.Shape.Circle();
+        this._circle = new Communicator.Markup.Shapes.Circle();
         this._circle.setStrokeWidth(2);
         this._circle.setStrokeColor(color);
         this._circle.setFillColor(color);
@@ -200,9 +201,9 @@ class MarkerMarkup extends Communicator.Markup.MarkupItem {
     }
 
     draw() {
-        const point = Communicator.Point2.fromPoint3(this._viewer.getView().projectPoint(this._point));
+        const point = Communicator.Point2.fromPoint3(this._viewer.view.projectPoint(this._point));
         this._circle.setCenter(point);
-        this._viewer.getMarkupManager().getRenderer().drawCircle(this._circle);
+        this._viewer.markupManager.getRenderer().drawCircle(this._circle);
     }
  
     hit() {
