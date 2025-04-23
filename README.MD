@@ -5,9 +5,9 @@ https://labs.techsoft3d.com/project/cloud-modeler
 
 ## Dependencies
 ### SDKs in use (version)
-- HOOPS Communicator (2024)
-- HOOPS Exchange (2024)
-- Parasolid (34.1)
+- HOOPS Communicator (2025.3.0)
+- HOOPS Exchange (2025.3.0)
+- Parasolid (35.1)
 
 ### Third paty module
 - libmicrohttpd (1.0.0-w32-bin)<br>
